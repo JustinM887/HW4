@@ -1,0 +1,30 @@
+{% extends 'todo/base.html' %}
+{% block title %}
+    <title>TO-DO List</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="display-4 text-center"; style="color: gray">TO-DO LIST</h1>
+    <div class="card">
+      <div class="card-header">Update Task</div>
+          <div class="card-body">
+             <form method="post" action="">
+                {% csrf_token %}
+                 <div class="row">
+                    <div class="col-10">
+                        {{ form.task.label }}
+                        {{ form.task }}
+                    </div>
+                    <div class="col-2">
+                        <label class="form-check-label" for="task-completed"><p>Completed</p></label>
+                            <div class="form-check form-switch">
+                                {{form.completed}}
+                            </div>
+                    </div>
+                 </div>
+                 <a href="{% url 'index' %}" class="btn btn-info"><-- Go back</a>
+                 <input class="btn btn-primary" type="submit" value="Update">
+             </form>
+          </div>
+    </div>
+{% endblock %}

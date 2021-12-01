@@ -1,0 +1,58 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}
+    <title>TO-DO List</title>
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="display-4 text-center"; style="color: gray">TO-DO LIST</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+             <h3 class="text-success">{{ message }}</h3>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            {{ form.task }}
+            <button class="btn	btn-primary" type="submit">ADD</button>
+        </div>
+    </form>
+
+{% for task in tasks %}
+    {% if task.completed == True %}
+        <div class="my-5">
+            <div class="row completed justify-content-center" style="background-color: lightgray" id="border">
+                <div class="col-md-6">
+                    <h5><strong><strike>{{ task.task }}</strike></strong></h5>
+                    <p style="font-size: 0.7rem; color: gray"><strike>Created at: {{ task.created_at }}</strike></p>
+                </div>
+
+                <div class="col-md-6 text-md-end">
+                    <a href="{% url 'update' task.id %}"><button class="btn btn-primary" type="submit">Update</button></a>
+                    <a href="{% url 'delete' task.id %}"><button class="btn	btn-danger" type="submit">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="my-5">
+            <div class="row not-completed justify-content-center" id="border">
+                <div class="col-md-6">
+                    <h5><strong>{{ task.task }}</strong></h5>
+                    <p style="font-size: 0.7rem" >Created at: {{ task.created_at }}</p>
+                </div>
+
+                <div class="col-md-6 text-md-end">
+                    <a class="btn btn-success" href="{% url 'complete_task' task.id %}">Completed</a>
+                    <a href="{% url 'update' task.id %}"><button class="btn btn-primary" type="submit">Update</button></a>
+                    <a href="{% url 'delete' task.id %}"><button class="btn	btn-danger" type="submit">Delete</button></a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}
